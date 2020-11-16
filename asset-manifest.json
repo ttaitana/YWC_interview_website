@@ -1,23 +1,26 @@
 {
   "files": {
-    "main.css": "/YWC_interview_website/static/css/main.8c8b27cf.chunk.css",
-    "main.js": "/YWC_interview_website/static/js/main.35dda8f0.chunk.js",
-    "main.js.map": "/YWC_interview_website/static/js/main.35dda8f0.chunk.js.map",
-    "runtime-main.js": "/YWC_interview_website/static/js/runtime-main.c08b961c.js",
-    "runtime-main.js.map": "/YWC_interview_website/static/js/runtime-main.c08b961c.js.map",
-    "static/js/2.b7b82824.chunk.js": "/YWC_interview_website/static/js/2.b7b82824.chunk.js",
-    "static/js/2.b7b82824.chunk.js.map": "/YWC_interview_website/static/js/2.b7b82824.chunk.js.map",
-    "static/js/3.ecff65db.chunk.js": "/YWC_interview_website/static/js/3.ecff65db.chunk.js",
-    "static/js/3.ecff65db.chunk.js.map": "/YWC_interview_website/static/js/3.ecff65db.chunk.js.map",
+    "main.css": "/YWC_interview_website/static/css/main.6b0b556e.chunk.css",
+    "main.js": "/YWC_interview_website/static/js/main.7b45ca75.chunk.js",
+    "main.js.map": "/YWC_interview_website/static/js/main.7b45ca75.chunk.js.map",
+    "runtime-main.js": "/YWC_interview_website/static/js/runtime-main.0de8cecc.js",
+    "runtime-main.js.map": "/YWC_interview_website/static/js/runtime-main.0de8cecc.js.map",
+    "static/css/2.2c69b29f.chunk.css": "/YWC_interview_website/static/css/2.2c69b29f.chunk.css",
+    "static/js/2.9d8241da.chunk.js": "/YWC_interview_website/static/js/2.9d8241da.chunk.js",
+    "static/js/2.9d8241da.chunk.js.map": "/YWC_interview_website/static/js/2.9d8241da.chunk.js.map",
+    "static/js/3.157cf7f8.chunk.js": "/YWC_interview_website/static/js/3.157cf7f8.chunk.js",
+    "static/js/3.157cf7f8.chunk.js.map": "/YWC_interview_website/static/js/3.157cf7f8.chunk.js.map",
     "index.html": "/YWC_interview_website/index.html",
-    "static/css/main.8c8b27cf.chunk.css.map": "/YWC_interview_website/static/css/main.8c8b27cf.chunk.css.map",
-    "static/js/2.b7b82824.chunk.js.LICENSE.txt": "/YWC_interview_website/static/js/2.b7b82824.chunk.js.LICENSE.txt",
-    "static/media/logo.103b5fa1.svg": "/YWC_interview_website/static/media/logo.103b5fa1.svg"
+    "static/css/2.2c69b29f.chunk.css.map": "/YWC_interview_website/static/css/2.2c69b29f.chunk.css.map",
+    "static/css/main.6b0b556e.chunk.css.map": "/YWC_interview_website/static/css/main.6b0b556e.chunk.css.map",
+    "static/js/2.9d8241da.chunk.js.LICENSE.txt": "/YWC_interview_website/static/js/2.9d8241da.chunk.js.LICENSE.txt",
+    "static/media/pet.ef728cae.svg": "/YWC_interview_website/static/media/pet.ef728cae.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.c08b961c.js",
-    "static/js/2.b7b82824.chunk.js",
-    "static/css/main.8c8b27cf.chunk.css",
-    "static/js/main.35dda8f0.chunk.js"
+    "static/js/runtime-main.0de8cecc.js",
+    "static/css/2.2c69b29f.chunk.css",
+    "static/js/2.9d8241da.chunk.js",
+    "static/css/main.6b0b556e.chunk.css",
+    "static/js/main.7b45ca75.chunk.js"
   ]
 }
