@@ -1,13 +1,160 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif; */
+  font-family: "IBM Plex Sans Thai", sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+#background {
+  background-image: url("https://search-merchant.xn--42caj4e6bk1f5b1j.com/images/result-bg.png");
+  background-color: #ffffff;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: -100;
+}
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.navbar {
+  padding: 1em;
+  background: #ffffff;
+}
+.text-bold {
+  font-weight: bold !important;
+}
+
+.breadcrumb {
+  background: #293b7c;
+  color: #ffffff !important;
+  height: 3em;
+  display: flex;
+  align-items: center;
+}
+.ant-breadcrumb-link > a,
+.ant-breadcrumb-link,
+.ant-breadcrumb-separator {
+  color: #ffffff !important;
+}
+.ant-breadcrumb-link > a {
+  text-decoration: underline;
+}
+.ant-input-search-button{
+  width: 4em !important;
+  background: #F8F8F8 !important;
+  color: #252525 !important;
+  border-top: 1px solid #d9d9d9 !important;
+  border-bottom: 1px solid #d9d9d9 !important;
+  border-right: 1px solid #d9d9d9 !important;
+  border-left: unset !important;
+  border-top-right-radius: 0.5em !important;
+  border-bottom-right-radius: 0.5em !important;
+}
+#search-location{
+  border-top: 1px solid #d9d9d9 !important;
+  border-bottom: 1px solid #d9d9d9 !important;
+  border-right: 1px solid #d9d9d9 !important;
+  border-left: unset !important;
+  border-top-right-radius: 0.5em !important;
+  border-bottom-right-radius: 0.5em !important;
+}
+
+#content {
+  padding: 0 3%;
+}
+
+.shop-title-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1em;
+}
+.description {
+  display: flex;
+}
+.shop-title {
+  margin: 0 2em 0 0;
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+.ant-badge {
+  width: 4em;
+  height: 1em;
+  margin: 0 3em;
+  padding: 0.5em 2em;
+  text-align: center !important;
+}
+.ant-badge-count {
+  border-radius: 2px !important;
+  font-weight: bold !important;
+  text-align: center !important;
+}
+
+.background-gra {
+  background-image: url("https://search-merchant.xn--42caj4e6bk1f5b1j.com/images/result-bg.png");
+}
+.filter-container {
+  margin-bottom: 2em;
+}
+.filter-header {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+.gray-text {
+  color: #bfbfbf;
+}
+.header{
+  margin: 2em 0;
+}
+/* .description p :first-child {
+  margin: 0 0.5em 0 0;
+  color: red;
+} */
+.img-container {
+  width: 200px;
+  height: 200px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+.img-container img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.circle-icon {
+  font-size: 1.3em;
+  text-align: center;
+}
+.icon-container-circle {
+  width: 3em;
+  height: 3em;
+  color: #50cc3f;
+  border-radius: 50%;
+  border: 1px solid #50cc3f;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  margin-right: 1em;
+}
+
+.icon-container{
+  display: flex!important;
+  align-items: center!important;
+}
+
+.btn-primary{
+  margin-top: 0.5em;
+  border-color: #1b90ff !important;
+  color: #1b90ff !important;
 }
