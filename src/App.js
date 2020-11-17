@@ -1,8 +1,9 @@
-import React from "react"
+import React, { PropTypes } from "react"
 import {
   Row,
   Col,
   Input,
+  InputNumber,
   Select,
   Breadcrumb,
   Card,
@@ -19,6 +20,17 @@ import parse from "html-react-parser"
 import "antd/dist/antd.css"
 import "./index.css"
 
+//! ============== Todo List ==============
+//* Basic Structure (desktop view) ✓
+//* Fetch Data ✓
+//* Change display as category ✓
+//* Filter by price (min-max, range select) ✓ (included null to select) ✓
+//* Filter by location ✓
+//todo : Get Current location
+//todo : Filter by Main Category
+//todo : Filter by sub Category
+//! =======================================
+
 const categoryTranslator = (type) => {
   if (type === "ร้านอาหาร") {
   }
@@ -30,22 +42,34 @@ const sortThaiDictionary = (list) => {
   return newList
 }
 
+const priceRangeConvertor = (min, max) => {
+  const min_range = min === null ? 0 : min <= 100 ? 1 : min <= 300 ? 2 : min <= 600 ? 3 : 4
+  const max_range = max === null ? 4 : max <= 100 ? 1 : max <= 300 ? 2 : max <= 600 ? 3 : 4
+  return [...Array(1 + max_range - min_range).keys()].map((v) => min_range + v)
+}
+
 class App extends React.Component {
   constructor() {
     super()
     this.state = {
+      //! Fetched data
       provinces: [],
       categories: [],
       prices: [],
       merchants: [],
+
+      //! filter indicator
       cat_value: 0,
-      food_drink_value: 0,
+      sub_cat: 0,
       auto_complete: null,
       max_price: null,
       min_price: null,
-      show_merchant: [],
-      location: 0,
+      location: 1,
       search_result: "",
+      price_range: null,
+
+      //! filter result
+      show_merchant: [],
     }
   }
   componentDidMount() {
@@ -68,30 +92,74 @@ class App extends React.Component {
         })
       })
   }
+
   merchantFilter = () => {
-    this.state.merchants.filter((merchant) => {
-      console.log(merchant.categoryName)
-      console.log("-------------------")
+    const {
+      price_range,
+      cat_value,
+      location,
+      provinces,
+      max_price,
+      min_price,
+    } = this.state
+    let new_merchant = this.state.merchants.filter((merchant) => {
+      const mer_price_rang =
+        cat_value === 1
+          ? price_range === 0 || price_range === null
+            ? true
+            : merchant.priceLevel === price_range
+          : priceRangeConvertor(min_price, max_price).includes(
+              merchant.priceLevel
+            )
+      const mer_location =
+        location === 1 || location === 0
+          ? true
+          : merchant.addressProvinceName === provinces[location - 2]
+      // const mer_cat = merchant.categories
+      return mer_price_rang && mer_location
+    })
+    this.setState({
+      show_merchant: new_merchant,
     })
   }
 
   onChangeCat = (e) => {
-    this.setState({
-      cat_value: e.target.value,
-    })
-    this.merchantFilter()
+    this.setState(
+      {
+        cat_value: e.target.value,
+      },
+      () => {
+        this.merchantFilter()
+      }
+    )
   }
-  onChangeFood = (e) => {
+  onChangeSubCat = (e) => {
     this.setState({
-      food_drink_value: e.target.value,
+      sub_cat: e.target.value,
     })
   }
   handleChange = (value) => {}
 
   onChangeLocation = (value) => {
-    this.setState({
-      location: value,
-    })
+    this.setState(
+      {
+        location: value,
+      },
+      () => {
+        this.merchantFilter()
+      }
+    )
+  }
+
+  priceFilter = (value) => {
+    this.setState(
+      {
+        price_range: value,
+      },
+      () => {
+        this.merchantFilter()
+      }
+    )
   }
 
   onAutoComplete = (value, index) => {
@@ -164,8 +232,11 @@ class App extends React.Component {
       categories,
       provinces,
       prices,
-      food_drink_value,
+      sub_cat,
       show_merchant,
+      price_range,
+      max_price,
+      min_price,
     } = this.state
     return (
       <div className="App">
@@ -245,7 +316,7 @@ class App extends React.Component {
             </h2>
           </div>
           <Row>
-            {/* //! Filter */}
+            {/* //! =================== Filter =================== */}
             <Col xs={{ span: 5, offset: 1 }} lg={{ span: 6, offset: 0 }}>
               <Card>
                 <div id="shop-type" className="filter-container">
@@ -261,7 +332,7 @@ class App extends React.Component {
                     ))}
                   </Radio.Group>
                 </div>
-
+                {/* //! =================== Location =================== */}
                 <div id="location" className="filter-container">
                   <p className="filter-header">จังหวัด/ใกล้ฉัน</p>
                   <Select
@@ -317,12 +388,19 @@ class App extends React.Component {
                     ))}
                   </Select>
                 </div>
+                {/* //! =================== Price =================== */}
                 {cat_value === 1 ? (
                   <div id="prices" className="filter-container">
                     <p className="filter-header">ราคา</p>
-                    <Select defaultValue={0} style={{ width: 200 }}>
+                    <Select
+                      style={{ width: "100%" }}
+                      onSelect={this.priceFilter}
+                      placeholder="กรุณาเลือก"
+                      value={price_range}
+                    >
+                      <Option value={0}>ทั้งหมด</Option>
                       {prices.map((prov, index) => (
-                        <Option value={index}>{prov}</Option>
+                        <Option value={index + 1}>{prov}</Option>
                       ))}
                     </Select>
                   </div>
@@ -331,30 +409,57 @@ class App extends React.Component {
                     <p className="filter-header">ราคา</p>
                     <Row>
                       <Col span="11" offset="0">
-                        <Input defaultValue="" placeholder="ราคาต่ำสุด" />
+                        <InputNumber
+                          defaultValue=""
+                          placeholder="ราคาต่ำสุด"
+                          min={0}
+                          style={{ width: "100%" }}
+                          value={min_price}
+                          onChange={(value) => {
+                            this.setState({ min_price: value })
+                          }}
+                        />
                       </Col>
-                      <Col span="1" offset="1">
-                        -
+                      <Col
+                        span="2"
+                        offset="0"
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <span>-</span>
                       </Col>
                       <Col span="11" offset="0">
-                        <Input defaultValue="" placeholder="ราคาสูงสุด" />
+                        <InputNumber
+                          defaultValue=""
+                          placeholder="ราคาสูงสุด"
+                          min={0}
+                          style={{ width: "100%" }}
+                          value={max_price}
+                          onChange={(value) => {
+                            this.setState({ max_price: value })
+                          }}
+                        />
                       </Col>
                     </Row>
-                    <Button block className="btn-primary">
-                      Default
+                    <Button
+                      block
+                      className="btn-primary"
+                      onClick={this.merchantFilter}
+                    >
+                      ตกลง
                     </Button>
                   </div>
                 )}
-
+                {/* //! =================== sub category =================== */}
                 {cat_value === 0 ? null : (
-                  <div id="food-drinks" className="filter-container">
+                  <div id="sub-filter" className="filter-container">
                     <p className="filter-header">
                       ประเภท{categories[cat_value - 1]?.name}
                     </p>
-                    <Radio.Group
-                      onChange={this.onChangeFood}
-                      value={food_drink_value}
-                    >
+                    <Radio.Group onChange={this.onChangeSubCat} value={sub_cat}>
                       <Radio style={radioStyle} value={0}>
                         ทั้งหมด
                       </Radio>
@@ -409,6 +514,7 @@ class App extends React.Component {
                         <p>|</p>
                         <p>
                           {shop.addressDistrictName}
+                          &ensp;
                           {shop.addressProvinceName}
                         </p>
                       </Space>
