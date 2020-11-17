@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/YWC_interview_website/static/css/main.6b0b556e.chunk.css",
+    "main.css": "/YWC_interview_website/static/css/main.e53da5db.chunk.css",
     "main.js": "/YWC_interview_website/static/js/main.83ce5931.chunk.js",
     "main.js.map": "/YWC_interview_website/static/js/main.83ce5931.chunk.js.map",
     "runtime-main.js": "/YWC_interview_website/static/js/runtime-main.8a459c21.js",
@@ -12,7 +12,7 @@
     "static/js/3.3fda371b.chunk.js.map": "/YWC_interview_website/static/js/3.3fda371b.chunk.js.map",
     "index.html": "/YWC_interview_website/index.html",
     "static/css/2.2c69b29f.chunk.css.map": "/YWC_interview_website/static/css/2.2c69b29f.chunk.css.map",
-    "static/css/main.6b0b556e.chunk.css.map": "/YWC_interview_website/static/css/main.6b0b556e.chunk.css.map",
+    "static/css/main.e53da5db.chunk.css.map": "/YWC_interview_website/static/css/main.e53da5db.chunk.css.map",
     "static/js/2.ef3575a8.chunk.js.LICENSE.txt": "/YWC_interview_website/static/js/2.ef3575a8.chunk.js.LICENSE.txt",
     "static/js/main.83ce5931.chunk.js.LICENSE.txt": "/YWC_interview_website/static/js/main.83ce5931.chunk.js.LICENSE.txt",
     "static/media/pet.ef728cae.svg": "/YWC_interview_website/static/media/pet.ef728cae.svg"
@@ -21,7 +21,7 @@
     "static/js/runtime-main.8a459c21.js",
     "static/css/2.2c69b29f.chunk.css",
     "static/js/2.ef3575a8.chunk.js",
-    "static/css/main.6b0b556e.chunk.css",
+    "static/css/main.e53da5db.chunk.css",
     "static/js/main.83ce5931.chunk.js"
   ]
 }
