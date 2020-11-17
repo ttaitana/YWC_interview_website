@@ -25,7 +25,7 @@ code {
 }
 
 .navbar {
-  padding: 1em;
+  padding: 1em 0;
   background: #ffffff;
 }
 .text-bold {
@@ -85,11 +85,11 @@ code {
   font-size: 1.3rem;
 }
 .ant-badge {
-  width: 4em;
-  height: 1em;
+  width: 4em !important;
+  /* height: 1em;
   margin: 0 3em;
   padding: 0.5em 2em;
-  text-align: center !important;
+  text-align: center !important; */
 }
 .ant-badge-count {
   border-radius: 2px !important;
@@ -157,4 +157,12 @@ code {
   margin-top: 0.5em;
   border-color: #1b90ff !important;
   color: #1b90ff !important;
+}
+
+
+/* Responsive */
+@media only screen and (max-width: 992px) {
+  .hide-on-mobile {
+    display: none !important;
+  }
 }

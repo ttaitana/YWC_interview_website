@@ -29,6 +29,7 @@ import "./index.css"
 //todo : Get Current location
 //todo : Filter by Main Category
 //todo : Filter by sub Category
+//todo : Responsive (30%)
 //! =======================================
 
 const categoryTranslator = (type) => {
@@ -43,8 +44,10 @@ const sortThaiDictionary = (list) => {
 }
 
 const priceRangeConvertor = (min, max) => {
-  const min_range = min === null ? 0 : min <= 100 ? 1 : min <= 300 ? 2 : min <= 600 ? 3 : 4
-  const max_range = max === null ? 4 : max <= 100 ? 1 : max <= 300 ? 2 : max <= 600 ? 3 : 4
+  const min_range =
+    min === null ? 0 : min <= 100 ? 1 : min <= 300 ? 2 : min <= 600 ? 3 : 4
+  const max_range =
+    max === null ? 4 : max <= 100 ? 1 : max <= 300 ? 2 : max <= 600 ? 3 : 4
   return [...Array(1 + max_range - min_range).keys()].map((v) => min_range + v)
 }
 
@@ -243,15 +246,21 @@ class App extends React.Component {
         <div id="background"></div>
         <div className="navbar">
           <Row style={{ alignItems: "center" }}>
-            <Col xs={{ span: 5, offset: 1 }} lg={{ span: 2, offset: 2 }}>
+            <Col xs={{ span: 0, offset: 0 }} lg={{ span: 3, offset: 2 }}>
               <img
                 src="https://search-merchant.คนละครึ่ง.com/images/halfhalf-logo.png"
                 alt=""
-                height="70%"
+                style={{width:"100%"}}
               />
             </Col>
-            <Col xs={{ span: 19, offset: 1 }} lg={{ span: 17, offset: 2 }}>
-              <div style={{ display: "flex" }}>
+            <Col xs={{ span: 2, offset: 1 }} lg={{ span: 0, offset: 0 }}>
+              <img
+                src="https://search-merchant.คนละครึ่ง.com/images/halfhalf-logo-mini.png"
+                alt=""
+                width="100%"
+              />
+            </Col>
+            <Col xs={{ span: 19, offset: 1 }} lg={{ span: 16, offset: 1}}>
                 <Input.Group compact style={{ width: "100%" }}>
                   <Select
                     defaultValue={0}
@@ -264,6 +273,7 @@ class App extends React.Component {
                     onChange={this.onChangeLocation}
                     name="location"
                     value={this.state.location}
+                    className="hide-on-mobile"
                   >
                     {selectBefore}
                     {this.state.provinces.map((prov, index) => (
@@ -293,7 +303,6 @@ class App extends React.Component {
                     />
                   </AutoComplete>
                 </Input.Group>
-              </div>
             </Col>
           </Row>
         </div>
@@ -317,7 +326,12 @@ class App extends React.Component {
           </div>
           <Row>
             {/* //! =================== Filter =================== */}
-            <Col xs={{ span: 5, offset: 1 }} lg={{ span: 6, offset: 0 }}>
+            <Col
+              lg={{ span: 6, offset: 0 }}
+              sm={{ span: 0 }}
+              xs={{ span: 0 }}
+              id="filter"
+            >
               <Card>
                 <div id="shop-type" className="filter-container">
                   <p className="filter-header">ประเภทร้านค้า</p>
@@ -477,26 +491,40 @@ class App extends React.Component {
             </Col>
 
             {/* //! Content */}
-            <Col xs={{ span: 19, offset: 1 }} lg={{ span: 17, offset: 1 }}>
+            <Col xs={{ span: 24, offset: 0 }} lg={{ span: 17, offset: 1 }}>
               {show_merchant.map((shop) => (
                 <Card style={{ marginBottom: "1em" }}>
                   <Row>
-                    <Col span={7} offset={1}>
+                    <Col
+                      lg={{ span: 7, offset: 1 }}
+                      xs={{ span: 24, offset: 0 }}
+                    >
                       <div className="img-container">
                         <img src={shop.coverImageId} alt="" />
                       </div>
                     </Col>
-                    <Col span={15} offset={1}>
+                    <Col
+                      lg={{ span: 0, offset: 0 }}
+                      xs={{ span: 24, offset: 0 }}
+                    >
+                      <br />
+                    </Col>
+                    <Col
+                      lg={{ span: 15, offset: 1 }}
+                      xs={{ span: 24, offset: 0 }}
+                    >
                       <div className="shop-title-container">
                         <p className="shop-title">{shop.shopNameTH}</p>
-                        <Badge
-                          count={shop.isOpen === "Y" ? "เปิดอยู่" : "ปิดอยู่"}
-                          style={
-                            shop.isOpen === "Y"
-                              ? { background: "#50CC3F" }
-                              : { background: " #AFAFAF" }
-                          }
-                        />
+                        {shop.isOpen === "N/A" ? null : (
+                          <Badge
+                            count={shop.isOpen === "Y" ? "เปิดอยู่" : "ปิดอยู่"}
+                            style={
+                              shop.isOpen === "Y"
+                                ? { background: "#50CC3F" }
+                                : { background: " #AFAFAF" }
+                            }
+                          />
+                        )}
                       </div>
                       <Space className="description">
                         <p>{shop.subcategoryName}</p>
