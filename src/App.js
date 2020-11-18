@@ -64,7 +64,7 @@ class App extends React.Component {
       //! filter indicator
       cat_value: 0,
       sub_cat: 0,
-      auto_complete: null,
+      //auto_complete: null,
       max_price: null,
       min_price: null,
       location: 1,
@@ -104,6 +104,8 @@ class App extends React.Component {
       provinces,
       max_price,
       min_price,
+      categories,
+      search_result,
     } = this.state
     let new_merchant = this.state.merchants.filter((merchant) => {
       const mer_price_rang =
@@ -118,8 +120,20 @@ class App extends React.Component {
         location === 1 || location === 0
           ? true
           : merchant.addressProvinceName === provinces[location - 2]
+      const mer_cat =
+        cat_value === 0
+          ? true
+          : categories[cat_value - 1]?.name.includes(merchant.categoryName)
+          ? true
+          : false
+      const mer_search =
+        search_result === ""
+          ? true
+          : merchant.shopNameTH
+              .toLowerCase()
+              .includes(search_result.toLowerCase())
       // const mer_cat = merchant.categories
-      return mer_price_rang && mer_location
+      return mer_price_rang && mer_location && mer_search
     })
     this.setState({
       show_merchant: new_merchant,
@@ -168,13 +182,11 @@ class App extends React.Component {
   onAutoComplete = (value, index) => {
     this.setState({
       cat_value: index.index + 1,
-      auto_complete: "",
+      search_result: "",
     })
   }
   handleSearch = (e) => {
-    console.log(`: ------------------`)
-    console.log(`App -> value`, e.target.value)
-    console.log(`: ------------------`)
+    this.merchantFilter()
   }
 
   render() {
@@ -240,6 +252,7 @@ class App extends React.Component {
       price_range,
       max_price,
       min_price,
+      search_result,
     } = this.state
     return (
       <div className="App">
@@ -250,7 +263,7 @@ class App extends React.Component {
               <img
                 src="https://search-merchant.คนละครึ่ง.com/images/halfhalf-logo.png"
                 alt=""
-                style={{width:"100%"}}
+                style={{ width: "100%" }}
               />
             </Col>
             <Col xs={{ span: 2, offset: 1 }} lg={{ span: 0, offset: 0 }}>
@@ -260,49 +273,53 @@ class App extends React.Component {
                 width="100%"
               />
             </Col>
-            <Col xs={{ span: 19, offset: 1 }} lg={{ span: 16, offset: 1}}>
-                <Input.Group compact style={{ width: "100%" }}>
-                  <Select
-                    defaultValue={0}
-                    // className="select-before"
-                    id="search-location"
-                    style={{
-                      width: "20%",
+            <Col xs={{ span: 19, offset: 1 }} lg={{ span: 16, offset: 1 }}>
+              <Input.Group compact style={{ width: "100%" }}>
+                <Select
+                  defaultValue={0}
+                  // className="select-before"
+                  id="search-location"
+                  style={{
+                    width: "20%",
+                  }}
+                  size={"large"}
+                  onChange={this.onChangeLocation}
+                  name="location"
+                  value={this.state.location}
+                  className="hide-on-mobile"
+                >
+                  {selectBefore}
+                  {this.state.provinces.map((prov, index) => (
+                    <Option value={index + 2}>{prov}</Option>
+                  ))}
+                </Select>
+                <AutoComplete
+                  style={{ width: "80%" }}
+                  size={"large"}
+                  // options={[{ value: "text 1" }, { value: "text 2" }]}
+                  options={categories.map((cat, index) => ({
+                    value: cat.name,
+                    index: index,
+                  }))}
+                  //value={this.state.auto_complete}
+                  value={search_result}
+                  onSelect={this.onAutoComplete}
+                >
+                  <Input.Search
+                    // addonBefore={selectBefore}
+                    allowClear
+                    defaultValue=""
+                    size={"large"}
+                    enterButton
+                    value={search_result}
+                    onChange={(e) => {
+                      this.setState({ search_result: e.target.value })
                     }}
-                    size={"large"}
-                    onChange={this.onChangeLocation}
-                    name="location"
-                    value={this.state.location}
-                    className="hide-on-mobile"
-                  >
-                    {selectBefore}
-                    {this.state.provinces.map((prov, index) => (
-                      <Option value={index + 2}>{prov}</Option>
-                    ))}
-                  </Select>
-                  <AutoComplete
-                    style={{ width: "80%" }}
-                    size={"large"}
-                    // options={[{ value: "text 1" }, { value: "text 2" }]}
-                    options={categories.map((cat, index) => ({
-                      value: cat.name,
-                      index: index,
-                    }))}
-                    value={this.state.auto_complete}
-                    onSelect={this.onAutoComplete}
-                  >
-                    <Input.Search
-                      // addonBefore={selectBefore}
-                      allowClear
-                      defaultValue=""
-                      size={"large"}
-                      enterButton
-                      value={this.state.search_result}
-                      placeholder="ค้นหา ชื่อ ร้านอาหาร และเครื่องดื่ม ร้านธงฟ้า OTOP และ สินค้าทั่วไป"
-                      onPressEnter={this.handleSearch}
-                    />
-                  </AutoComplete>
-                </Input.Group>
+                    placeholder="ค้นหา ชื่อ ร้านอาหาร และเครื่องดื่ม ร้านธงฟ้า OTOP และ สินค้าทั่วไป"
+                    onPressEnter={this.handleSearch}
+                  />
+                </AutoComplete>
+              </Input.Group>
             </Col>
           </Row>
         </div>
