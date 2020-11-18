@@ -27,16 +27,16 @@ import "./index.css"
 //* Filter by price (min-max, range select) ✓ (included null to select) ✓
 //* Filter by location ✓
 //todo : Get Current location
-//todo : Filter by Main Category
+//* Filter by Main Category ✓
 //todo : Filter by sub Category
 //todo : Responsive (30%)
 //! =======================================
 
-const categoryTranslator = (type) => {
-  if (type === "ร้านอาหาร") {
-  }
-}
+//! define keyword
+const generalShopKeyword = ["งานบริการอื่นๆ", "เบ็ดเตล็ด"]
+const otopShopKeyword = ["แฟชั่น"]
 
+//! define function
 const sortThaiDictionary = (list) => {
   const newList = [...list]
   newList.sort((a, b) => a.localeCompare(b, "th"))
@@ -49,6 +49,14 @@ const priceRangeConvertor = (min, max) => {
   const max_range =
     max === null ? 4 : max <= 100 ? 1 : max <= 300 ? 2 : max <= 600 ? 3 : 4
   return [...Array(1 + max_range - min_range).keys()].map((v) => min_range + v)
+}
+
+const clearSlash = (text) => {
+  return text.replace(/\s/g, "").split("/")
+}
+
+const checkKeyword = (word_list, keywords) => {
+  return word_list.filter((word) => keywords.includes(word)).length > 0
 }
 
 class App extends React.Component {
@@ -108,6 +116,7 @@ class App extends React.Component {
       search_result,
     } = this.state
     let new_merchant = this.state.merchants.filter((merchant) => {
+      clearSlash(merchant.categoryName)
       const mer_price_rang =
         cat_value === 1
           ? price_range === 0 || price_range === null
@@ -125,6 +134,10 @@ class App extends React.Component {
           ? true
           : categories[cat_value - 1]?.name.includes(merchant.categoryName)
           ? true
+          : cat_value === 2
+          ? checkKeyword(clearSlash(merchant.categoryName), otopShopKeyword)
+          : cat_value === 4
+          ? checkKeyword(clearSlash(merchant.categoryName), generalShopKeyword)
           : false
       const mer_search =
         search_result === ""
@@ -133,7 +146,7 @@ class App extends React.Component {
               .toLowerCase()
               .includes(search_result.toLowerCase())
       // const mer_cat = merchant.categories
-      return mer_price_rang && mer_location && mer_search
+      return mer_price_rang & mer_location & mer_search & mer_cat
     })
     this.setState({
       show_merchant: new_merchant,
@@ -544,7 +557,13 @@ class App extends React.Component {
                         )}
                       </div>
                       <Space className="description">
-                        <p>{shop.subcategoryName}</p>
+                        <p>
+                          {shop.subcategoryName
+                            .split("/")
+                            .join("")
+                            .split(" ")
+                            .map((sup_cat) => sup_cat + " ")}
+                        </p>
                         <p>|</p>
                         <p>
                           {[...Array(Number(shop.priceLevel) || 0)].map(
