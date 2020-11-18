@@ -26,9 +26,9 @@ import "./index.css"
 //* Change display as category ✓
 //* Filter by price (min-max, range select) ✓ (included null to select) ✓
 //* Filter by location ✓
-//todo : Get Current location
 //* Filter by Main Category ✓
-//todo : Filter by sub Category
+//* Filter by sub Category (maybe) ✓
+//todo : Get Current location
 //todo : Responsive (30%)
 //! =======================================
 
@@ -52,10 +52,17 @@ const priceRangeConvertor = (min, max) => {
 }
 
 const clearSlash = (text) => {
-  return text.replace(/\s/g, "").split("/")
+  let new_text = text.split("/")
+  return new_text.length > 1
+    ? new_text.map((txt) => txt.replace(/\s/g, ""))
+    : text.split(" ")
 }
 
 const checkKeyword = (word_list, keywords) => {
+  // console.log(`: -----------------------------------`)
+  // console.log(`checkKeyword -> word_list`, word_list)
+  // console.log(`checkKeyword -> keywords`, keywords)
+  // console.log(`: -----------------------------------`)
   return word_list.filter((word) => keywords.includes(word)).length > 0
 }
 
@@ -114,6 +121,7 @@ class App extends React.Component {
       min_price,
       categories,
       search_result,
+      sub_cat,
     } = this.state
     let new_merchant = this.state.merchants.filter((merchant) => {
       clearSlash(merchant.categoryName)
@@ -145,8 +153,15 @@ class App extends React.Component {
           : merchant.shopNameTH
               .toLowerCase()
               .includes(search_result.toLowerCase())
+      const mer_sub_cat =
+        sub_cat === 0
+          ? true
+          : checkKeyword(
+              clearSlash(merchant.subcategoryName),
+              categories[cat_value - 1].subcategories[sub_cat - 1]
+            )
       // const mer_cat = merchant.categories
-      return mer_price_rang & mer_location & mer_search & mer_cat
+      return mer_price_rang & mer_location & mer_search & mer_cat & mer_sub_cat
     })
     this.setState({
       show_merchant: new_merchant,
@@ -157,6 +172,7 @@ class App extends React.Component {
     this.setState(
       {
         cat_value: e.target.value,
+        sub_cat: 0,
       },
       () => {
         this.merchantFilter()
@@ -164,9 +180,14 @@ class App extends React.Component {
     )
   }
   onChangeSubCat = (e) => {
-    this.setState({
-      sub_cat: e.target.value,
-    })
+    this.setState(
+      {
+        sub_cat: e.target.value,
+      },
+      () => {
+        this.merchantFilter()
+      }
+    )
   }
   handleChange = (value) => {}
 
@@ -286,7 +307,7 @@ class App extends React.Component {
                 width="100%"
               />
             </Col>
-            <Col xs={{ span: 19, offset: 1 }} lg={{ span: 16, offset: 1 }}>
+            <Col xs={{ span: 18, offset: 1 }} lg={{ span: 16, offset: 1 }}>
               <Input.Group compact style={{ width: "100%" }}>
                 <Select
                   defaultValue={0}
@@ -309,7 +330,7 @@ class App extends React.Component {
                 <AutoComplete
                   style={{ width: "80%" }}
                   size={"large"}
-                  // options={[{ value: "text 1" }, { value: "text 2" }]}
+                  // id="auto-complete"
                   options={categories.map((cat, index) => ({
                     value: cat.name,
                     index: index,
@@ -333,6 +354,12 @@ class App extends React.Component {
                   />
                 </AutoComplete>
               </Input.Group>
+            </Col>
+            <Col xs={{ span: 1, offset: 0 }} lg={{ span: 0, offset: 0 }}>
+              <img
+                src="https://search-merchant.คนละครึ่ง.com/images/filter.png"
+                alt=""
+              />
             </Col>
           </Row>
         </div>
