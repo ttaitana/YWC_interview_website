@@ -1,3 +1,5 @@
+//! ============== Main component ==============
+
 //! Fetched data
 
 //! filter indicator
