@@ -16,6 +16,7 @@ import {
   Empty,
   Drawer,
   Layout,
+  Tooltip,
 } from "antd"
 import Icon, {
   CarOutlined,
@@ -36,7 +37,7 @@ import "./index.css"
 //* Filter by Main Category ✓
 //* Filter by sub Category (maybe) ✓
 //todo : Get Current location
-//todo : Responsive (90%) 
+//todo : Responsive (90%)
 //! =======================================
 
 //! define keyword
@@ -217,10 +218,15 @@ class App extends React.Component {
   }
 
   onAutoComplete = (value, index) => {
-    this.setState({
-      cat_value: index.index + 1,
-      search_result: "",
-    })
+    this.setState(
+      {
+        cat_value: index.index + 1,
+        search_result: "",
+      },
+      () => {
+        this.merchantFilter()
+      }
+    )
   }
   handleSearch = (e) => {
     this.merchantFilter()
@@ -495,7 +501,7 @@ class App extends React.Component {
                 width="100%"
               />
             </Col>
-            <Col xs={{ span: 18, offset: 1 }} md={{ span: 17, offset: 1 }}>
+            <Col xs={{ span: 17, offset: 1 }} md={{ span: 17, offset: 1 }}>
               <Input.Group compact style={{ width: "100%" }}>
                 <Select
                   defaultValue={0}
@@ -545,7 +551,7 @@ class App extends React.Component {
               </Input.Group>
             </Col>
             <Col
-              xs={{ span: 2, offset: 0 }}
+              xs={{ span: 3, offset: 0 }}
               md={{ span: 0, offset: 0 }}
               style={{
                 display: "flex",
@@ -611,7 +617,22 @@ class App extends React.Component {
                     {show_merchant.length === 0 ? (
                       <Card style={{ marginBottom: "1em" }}>
                         <Empty
-                          description={<span>ไม่พบร้านค้าที่คุณต้องการ</span>}
+                          description={
+                            <>
+                              <h1
+                                style={{
+                                  fontWeight: "bold",
+                                  fontSize: "1.5em",
+                                }}
+                              >
+                                ไม่พบสถานที่ที่คุณกำลังหา
+                              </h1>
+                              <p>
+                                ร้านค้าที่ท่านค้นหาอาจไม่ได้เข้าร่วมโครงการ
+                                คนละครึ่ง
+                              </p>
+                            </>
+                          }
                         />
                       </Card>
                     ) : (
@@ -701,20 +722,48 @@ class App extends React.Component {
                                 <div style={{ display: "flex" }}>
                                   {shop.facilities.map((fac) =>
                                     fac === "ที่จอดรถ" ? (
-                                      <div className="icon-container-circle">
-                                        <CarOutlined className="circle-icon" />
-                                      </div>
+                                      // <Tooltip title={"ที่จอดรถ"}>
+                                      //   <div className="icon-container-circle">
+                                      //     <CarOutlined className="circle-icon" />
+                                      //   </div>
+                                      // </Tooltip>
+                                      <Tooltip title={"ที่จอดรถ"}>
+                                        <div className="icon-container-circle">
+                                          {/* <CarOutlined className="circle-icon" /> */}
+                                          <img
+                                            src="https://search-merchant.คนละครึ่ง.com/images/facilities/%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B8%88%E0%B8%AD%E0%B8%94%E0%B8%A3%E0%B8%96.png"
+                                            alt=""
+                                            className="circle-icon"
+                                          />
+                                        </div>
+                                      </Tooltip>
                                     ) : fac === "สามารถนำสัตว์เลี้ยงเข้าได้" ? (
-                                      <div className="icon-container-circle">
-                                        <Icon
-                                          component={PetSvg}
-                                          className="circle-icon"
-                                        />
-                                      </div>
+                                      <Tooltip
+                                        title={"สามารถนำสัตว์เลี้ยงเข้าได้"}
+                                      >
+                                        <div className="icon-container-circle">
+                                          <Icon
+                                            component={PetSvg}
+                                            className="circle-icon"
+                                          />
+                                        </div>
+                                      </Tooltip>
                                     ) : fac === "รับจองล่วงหน้า" ? (
-                                      <div className="icon-container-circle">
-                                        <FileDoneOutlined className="circle-icon" />
-                                      </div>
+                                      <Tooltip title={"รับจองล่วงหน้า"}>
+                                        <div className="icon-container-circle">
+                                          <FileDoneOutlined className="circle-icon" />
+                                        </div>
+                                      </Tooltip>
+                                    ) : fac === "รับบัตรเครดิต" ? (
+                                      <Tooltip title={"รับบัตรเครดิต"}>
+                                        <div className="icon-container-circle">
+                                          <img
+                                            src="https://search-merchant.คนละครึ่ง.com/images/facilities/%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B8%9A%E0%B8%B1%E0%B8%95%E0%B8%A3%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%94%E0%B8%B4%E0%B8%95.png"
+                                            alt=""
+                                            className="circle-icon"
+                                          />
+                                        </div>
+                                      </Tooltip>
                                     ) : null
                                   )}
                                 </div>
