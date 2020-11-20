@@ -311,7 +311,7 @@ class App extends React.Component {
     const filterComponent = (
       <>
         {/* //! =================== Category =================== */}
-        <Card>
+        <Card style={{border: "1px solid #a0aebf "}}>
           <div id="shop-type" className="filter-container">
             <p className="filter-header">ประเภทร้านค้า</p>
             <Radio.Group onChange={this.onChangeCat} value={cat_value}>
@@ -615,33 +615,26 @@ class App extends React.Component {
                     md={{ span: 24, offset: 1 }}
                   >
                     {show_merchant.length === 0 ? (
-                      <Card style={{ marginBottom: "1em" }}>
-                        <Empty
-                          description={
-                            <>
-                              <h1
-                                style={{
-                                  fontWeight: "bold",
-                                  fontSize: "1.5em",
-                                }}
-                              >
-                                ไม่พบสถานที่ที่คุณกำลังหา
-                              </h1>
-                              <p>
-                                ร้านค้าที่ท่านค้นหาอาจไม่ได้เข้าร่วมโครงการ
-                                คนละครึ่ง
-                              </p>
-                            </>
-                          }
-                        />
-                      </Card>
+                      <div style={{textAlign: "center", marginTop: "10%"}}>
+                        <h1
+                          style={{
+                            fontWeight: "bold",
+                            fontSize: "2.5em",
+                          }}
+                        >
+                          ไม่พบสถานที่ที่คุณกำลังหา
+                        </h1>
+                        <p>
+                          ร้านค้าที่ท่านค้นหาอาจไม่ได้เข้าร่วมโครงการ คนละครึ่ง
+                        </p>
+                      </div>
                     ) : (
                       <>
                         {show_merchant.map((shop) => (
-                          <Card style={{ marginBottom: "1em" }}>
+                          <Card style={{ marginBottom: "1em", border: "1px solid #CAE0E9" }}>
                             <Row>
                               <Col
-                                lg={{ span: 7, offset: 1 }}
+                                lg={{ span: 7, offset: 0 }}
                                 xs={{ span: 24, offset: 0 }}
                               >
                                 <div className="img-container">

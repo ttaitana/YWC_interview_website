@@ -23,6 +23,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+.ant-layout{
+  background: unset !important;
+}
 
 .back-icon {
   font-size: 1.5em;
